@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Graphs;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -53,8 +54,16 @@ namespace GraphsUnitTests
             Assert.AreEqual(20, shortestPath.Sum(x => x.Weight));
         }
 
-        [TestMethod]
-        public void ShortedPathsWithSeveralEdges_2()
+        [DataRow(0, 0)]
+        [DataRow(1, 1.05)]
+        [DataRow(2, 0.26)]
+        [DataRow(3, 0.99)]
+        [DataRow(4, 0.38)]
+        [DataRow(5, 0.73)]
+        [DataRow(6, 1.51)]
+        [DataRow(7, 0.60)]
+        [DataTestMethod]
+        public void ShortedPathsWithSeveralEdges_2(int vertexTo, double expectedWeight)
         {
             WeightedGraph graph = new WeightedGraph();
 
@@ -76,13 +85,13 @@ namespace GraphsUnitTests
 
             GraphShortestPaths shortestPaths = new GraphShortestPaths(0, graph);
 
-            IList<WeightedEdge> shortestPath = shortestPaths.GetShortestPath(6).ToList();
+            IList<WeightedEdge> shortestPath = shortestPaths.GetShortestPath(vertexTo).ToList();
             foreach(var edge in shortestPath)
             {
                 System.Console.Write($"{edge} ");
             }
 
-            Assert.AreEqual(0.26 + 0.34 + 0.39 + 0.52, shortestPath.Sum(x => x.Weight));
+            Assert.AreEqual(expectedWeight, Math.Round(shortestPath.Sum(x => x.Weight), 2));
         }
     }
 }

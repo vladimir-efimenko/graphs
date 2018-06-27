@@ -8,7 +8,7 @@ namespace Graphs
     public class GraphShortestPaths
     {
         private readonly VertexPriorityQueue _priorityQueue;
-        private readonly IDictionary<int, (int v, int u)> _parents;
+        private readonly IDictionary<int, (int from, int to)> _parents;
         private readonly IDictionary<int, double> _calcWeights;
 
         public GraphShortestPaths(int from, WeightedGraph graph)
@@ -62,17 +62,21 @@ namespace Graphs
         {
             while (!_priorityQueue.Empty)
             {
-                int minEdge = _priorityQueue.DelMin();
-
-                foreach (WeightedEdge adj in Graph.GetAdjacencyList(minEdge))
+                int vertex = _priorityQueue.DelMin();
+                Trace.WriteLine($"Vertex {vertex} processing: ");
+                foreach (WeightedEdge adj in Graph.GetAdjacencyList(vertex))
                 {
-                    Debug.Assert(adj.From == minEdge);
+                    Debug.Assert(adj.From == vertex);
+                    Trace.WriteLine($"Adjacent edge processing: {adj}");
                     double weight = _calcWeights[adj.To];
                     double newWeight = _calcWeights[adj.From] + adj.Weight;
+                    Trace.WriteLine($"Current Weight: {weight}");
+                    Trace.WriteLine($"Calculated Weight: {newWeight}");
+
                     if (weight > newWeight)
                     {
                         _calcWeights[adj.To] = newWeight;
-                        _parents[adj.To] = (_parents[adj.From].u, adj.To);
+                        _parents[adj.To] = (_parents[adj.From].to, adj.To);
                         if (_priorityQueue.Contains(adj.To))
                             _priorityQueue.Change(adj.To, newWeight);
                         else

@@ -2,4 +2,8 @@
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
 
-/.vs/Graphs/v15/Server/sqlite3
+/.vs
+/Graphs/bin
+/Graphs/obj
+/GraphsUnitTests/bin
+/GraphsUnitTests/obj

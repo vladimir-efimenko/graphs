@@ -52,5 +52,37 @@ namespace GraphsUnitTests
 
             Assert.AreEqual(20, shortestPath.Sum(x => x.Weight));
         }
+
+        [TestMethod]
+        public void ShortedPathsWithSeveralEdges_2()
+        {
+            WeightedGraph graph = new WeightedGraph();
+
+            graph.AddEdge(0, 2, 0.26);
+            graph.AddEdge(0, 4, 0.38);
+            graph.AddEdge(2, 7, 0.34);
+            graph.AddEdge(4, 5, 0.35);
+            graph.AddEdge(5, 4, 0.35);
+            graph.AddEdge(4, 7, 0.37);
+            graph.AddEdge(5, 7, 0.28);
+            graph.AddEdge(7, 5, 0.28);
+            graph.AddEdge(7, 3, 0.39);
+            graph.AddEdge(1, 3, 0.29);
+            graph.AddEdge(6, 2, 0.40);
+            graph.AddEdge(6, 0, 0.58);
+            graph.AddEdge(6, 4, 0.93);
+            graph.AddEdge(5, 1, 0.32);
+            graph.AddEdge(3, 6, 0.52);
+
+            GraphShortestPaths shortestPaths = new GraphShortestPaths(0, graph);
+
+            IList<WeightedEdge> shortestPath = shortestPaths.GetShortestPath(6).ToList();
+            foreach(var edge in shortestPath)
+            {
+                System.Console.Write($"{edge} ");
+            }
+
+            Assert.AreEqual(0.26 + 0.34 + 0.39 + 0.52, shortestPath.Sum(x => x.Weight));
+        }
     }
 }

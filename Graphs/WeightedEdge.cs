@@ -37,5 +37,10 @@ namespace Graphs
             hashCode = hashCode * -1521134295 + Weight.GetHashCode();
             return hashCode;
         }
+
+        public override string ToString()
+        {
+            return $"{From}->{To} {Weight}";
+        }
     }
 }

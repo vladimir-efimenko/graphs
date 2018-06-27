@@ -10,14 +10,12 @@ namespace Graphs
         private readonly VertexPriorityQueue _priorityQueue;
         private readonly IDictionary<int, (int v, int u)> _parents;
         private readonly IDictionary<int, double> _calcWeights;
-        private readonly ICollection<int> _visited;
 
         public GraphShortestPaths(int from, WeightedGraph graph)
         {
             From = from;
             Graph = graph;
             _parents = new HashDictionary<int, (int, int)>();
-            _visited = new HashSet<int>();
             _calcWeights = new HashDictionary<int, double>();
             _priorityQueue = new VertexPriorityQueue();
             InitQueue();
@@ -65,8 +63,6 @@ namespace Graphs
             while (!_priorityQueue.Empty)
             {
                 int minEdge = _priorityQueue.DelMin();
-
-                _visited.Add(minEdge);
 
                 foreach (WeightedEdge adj in Graph.GetAdjacencyList(minEdge))
                 {

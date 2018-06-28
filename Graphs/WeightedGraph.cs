@@ -9,23 +9,23 @@ namespace Graphs
     /// <summary>
     /// Represents weighted oriented graph.
     /// </summary>
-    public class WeightedGraph : IEnumerable<WeightedEdge>
+    public class WeightedGraph<T> : IEnumerable<WeightedEdge<T>> where T : IComparable<T>
     {
         /// <summary>
         /// Adjacent edges map.
         /// </summary>
-        private readonly IDictionary<int, HashSet<WeightedEdge>> _edgeMap = new SortedDictionary<int, HashSet<WeightedEdge>>();
+        private readonly IDictionary<T, HashSet<WeightedEdge<T>>> _edgeMap = new SortedDictionary<T, HashSet<WeightedEdge<T>>>();
 
-        public void AddEdge(int from, int to, double weight)
+        public void AddEdge(T from, T to, double weight)
         {
             if (!_edgeMap.ContainsKey(from))
             {
-                _edgeMap.Add(from, new HashSet<WeightedEdge>());
+                _edgeMap.Add(from, new HashSet<WeightedEdge<T>>());
             }
-            _edgeMap[from].Add(new WeightedEdge(from, to, weight));
+            _edgeMap[from].Add(new WeightedEdge<T>(from, to, weight));
         }
 
-        public void AddEdge(WeightedEdge edge)
+        public void AddEdge(WeightedEdge<T> edge)
         {
             AddEdge(edge.From, edge.To, edge.Weight);
         }
@@ -35,33 +35,33 @@ namespace Graphs
             return this.Sum(edge => edge.Weight);
         }
 
-        public ICollection<WeightedEdge> GetAdjacencyList(int vertex)
+        public ICollection<WeightedEdge<T>> GetAdjacencyList(T vertex)
         {
             if (!_edgeMap.ContainsKey(vertex))
-                return new List<WeightedEdge>();
+                return new List<WeightedEdge<T>>();
             return _edgeMap[vertex];
         }
 
-        public WeightedEdge GetEdge(int from, int to)
+        public WeightedEdge<T> GetEdge(T from, T to)
         {
             if (_edgeMap.ContainsKey(from))
             {
-                foreach (WeightedEdge edge in _edgeMap[from])
+                foreach (WeightedEdge<T> edge in _edgeMap[from])
                 {
-                    if (edge.To == to)
+                    if (edge.To.Equals(to))
                         return edge;
                 }
             }
-            return WeightedEdge.None;
+            return WeightedEdge<T>.None;
         }
              
         public override string ToString()
         {
             StringBuilder res = new StringBuilder();
-            foreach(int from in _edgeMap.Keys)
+            foreach(T from in _edgeMap.Keys)
             {
                 res.Append($"{from}: "); 
-                foreach(WeightedEdge edge in _edgeMap[from])
+                foreach(WeightedEdge<T> edge in _edgeMap[from])
                 {
                     res.Append($"{edge.To} - {edge.Weight} ");
                 }
@@ -70,11 +70,11 @@ namespace Graphs
             return res.ToString();
         }
 
-        public IEnumerator<WeightedEdge> GetEnumerator()
+        public IEnumerator<WeightedEdge<T>> GetEnumerator()
         {
-            foreach (int from in _edgeMap.Keys)
+            foreach (T from in _edgeMap.Keys)
             {
-                foreach (WeightedEdge edge in _edgeMap[from])
+                foreach (WeightedEdge<T> edge in _edgeMap[from])
                 {
                     yield return edge;
                 }

@@ -1,42 +1,43 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using SCG = System.Collections.Generic;
 using System.Diagnostics;
 using C5;
 
 namespace Graphs
 {
-    public class GraphShortestPaths
+    public class GraphShortestPaths<T> where T : IComparable<T>
     {
-        private readonly VertexPriorityQueue _priorityQueue;
-        private readonly IDictionary<int, (int from, int to)> _parents;
-        private readonly IDictionary<int, double> _calcWeights;
+        private readonly VertexPriorityQueue<T> _priorityQueue;
+        private readonly IDictionary<T, WeightedEdge<T>> _parents;
+        private readonly IDictionary<T, double> _calcWeights;
 
-        public GraphShortestPaths(int from, WeightedGraph graph)
+        public GraphShortestPaths(T from, WeightedGraph<T> graph)
         {
             From = from;
             Graph = graph;
-            _parents = new HashDictionary<int, (int, int)>();
-            _calcWeights = new HashDictionary<int, double>();
-            _priorityQueue = new VertexPriorityQueue();
+            _parents = new HashDictionary<T, WeightedEdge<T>>();
+            _calcWeights = new HashDictionary<T, double>();
+            _priorityQueue = new VertexPriorityQueue<T>();
             InitQueue();
             BuildShortestPaths();
         }
 
-        public int From { get; }
+        public T From { get; }
 
-        public WeightedGraph Graph { get; }
+        public WeightedGraph<T> Graph { get; }
 
-        public SCG.ICollection<WeightedEdge> GetShortestPath(int to)
+        public SCG.ICollection<WeightedEdge<T>> GetShortestPath(T to)
         {
-            SCG.Stack<WeightedEdge> stack = new SCG.Stack<WeightedEdge>();
+            SCG.Stack<WeightedEdge<T>> stack = new SCG.Stack<WeightedEdge<T>>();
 
             if (_parents.Contains(to))
             {
-                (int v, int u) = _parents[to];
-                while (v != From || u != From)
+                WeightedEdge<T> edge = _parents[to];
+                while (edge != WeightedEdge<T>.None)
                 {
-                    stack.Push(Graph.GetEdge(v, u));
-                    (v, u) = _parents[v];
+                    stack.Push(edge);
+                    edge = _parents[edge.From];
                 }
             }
 
@@ -46,10 +47,10 @@ namespace Graphs
         private void InitQueue()
         {
             _calcWeights.Add(From, 0);
-            _parents.Add(From, (From, From));
+            _parents.Add(From, WeightedEdge<T>.None);
             _priorityQueue.Insert(From, 0);
 
-            foreach (WeightedEdge edge in Graph)
+            foreach (WeightedEdge<T> edge in Graph)
             {
                 if (!_calcWeights.Contains(edge.To))
                     _calcWeights.Add(edge.To, double.PositiveInfinity);
@@ -62,11 +63,11 @@ namespace Graphs
         {
             while (!_priorityQueue.Empty)
             {
-                int vertex = _priorityQueue.DelMin();
+                T vertex = _priorityQueue.DelMin();
                 Trace.WriteLine($"Vertex {vertex} processing: ");
-                foreach (WeightedEdge adj in Graph.GetAdjacencyList(vertex))
+                foreach (WeightedEdge<T> adj in Graph.GetAdjacencyList(vertex))
                 {
-                    Debug.Assert(adj.From == vertex);
+                    Debug.Assert(adj.From.Equals(vertex));
                     Trace.WriteLine($"Adjacent edge processing: {adj}");
                     double weight = _calcWeights[adj.To];
                     double newWeight = _calcWeights[adj.From] + adj.Weight;
@@ -76,7 +77,7 @@ namespace Graphs
                     if (weight > newWeight)
                     {
                         _calcWeights[adj.To] = newWeight;
-                        _parents[adj.To] = (_parents[adj.From].to, adj.To);
+                        _parents[adj.To] = adj;
                         if (_priorityQueue.Contains(adj.To))
                             _priorityQueue.Change(adj.To, newWeight);
                         else

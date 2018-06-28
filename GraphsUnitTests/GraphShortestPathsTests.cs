@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Graphs;
@@ -12,34 +13,34 @@ namespace GraphsUnitTests
         [TestMethod]
         public void ShortestPathsWithOneEdgeLength()
         {
-            WeightedGraph graph = new WeightedGraph();
+            WeightedGraph<int> graph = new WeightedGraph<int>();
 
             graph.AddEdge(0, 1, 10);
             graph.AddEdge(0, 2, 5);
             graph.AddEdge(0, 3, 7);
 
-            GraphShortestPaths shortestPaths = new GraphShortestPaths(0, graph);
+            GraphShortestPaths<int> shortestPaths = new GraphShortestPaths<int>(0, graph);
 
-            IList<WeightedEdge> shortestPath = shortestPaths.GetShortestPath(1).ToList();
+            IList<WeightedEdge<int>> shortestPath = shortestPaths.GetShortestPath(1).ToList();
 
             Assert.AreEqual(1, shortestPath.Count, "Shortest path count");
-            Assert.AreEqual(new WeightedEdge(0, 1, 10), shortestPath[0]);
+            Assert.AreEqual(new WeightedEdge<int>(0, 1, 10), shortestPath[0]);
 
             shortestPath = shortestPaths.GetShortestPath(2).ToList();
 
             Assert.AreEqual(1, shortestPath.Count, "Shortest path count");
-            Assert.AreEqual(new WeightedEdge(0, 2, 5), shortestPath[0]);
+            Assert.AreEqual(new WeightedEdge<int>(0, 2, 5), shortestPath[0]);
 
             shortestPath = shortestPaths.GetShortestPath(3).ToList();
 
             Assert.AreEqual(1, shortestPath.Count, "Shortest path count");
-            Assert.AreEqual(new WeightedEdge(0, 3, 7), shortestPath[0]);
+            Assert.AreEqual(new WeightedEdge<int>(0, 3, 7), shortestPath[0]);
         }
 
         [TestMethod]
-        public void ShortestPathsWithSeveralEdges()
+        public void ShortestPathsWithFiveEdges()
         {
-            WeightedGraph graph = new WeightedGraph();
+            WeightedGraph<int> graph = new WeightedGraph<int>();
 
             graph.AddEdge(1, 2, 7);
             graph.AddEdge(1, 3, 9);
@@ -47,9 +48,9 @@ namespace GraphsUnitTests
             graph.AddEdge(2, 3, 10);
             graph.AddEdge(3, 4, 11);
 
-            GraphShortestPaths shortestPaths = new GraphShortestPaths(1, graph);
+            GraphShortestPaths<int> shortestPaths = new GraphShortestPaths<int>(1, graph);
 
-            IList<WeightedEdge> shortestPath = shortestPaths.GetShortestPath(4).ToList();
+            IList<WeightedEdge<int>> shortestPath = shortestPaths.GetShortestPath(4).ToList();
 
             Assert.AreEqual(20, shortestPath.Sum(x => x.Weight));
         }
@@ -63,9 +64,9 @@ namespace GraphsUnitTests
         [DataRow(6, 1.51)]
         [DataRow(7, 0.60)]
         [DataTestMethod]
-        public void ShortedPathsWithSeveralEdges_2(int vertexTo, double expectedWeight)
+        public void ShortedPathsWithSeveralEdges(int vertexTo, double expectedWeight)
         {
-            WeightedGraph graph = new WeightedGraph();
+            WeightedGraph<int> graph = new WeightedGraph<int>();
 
             graph.AddEdge(0, 2, 0.26);
             graph.AddEdge(0, 4, 0.38);
@@ -83,15 +84,61 @@ namespace GraphsUnitTests
             graph.AddEdge(5, 1, 0.32);
             graph.AddEdge(3, 6, 0.52);
 
-            GraphShortestPaths shortestPaths = new GraphShortestPaths(0, graph);
+            GraphShortestPaths<int> shortestPaths = new GraphShortestPaths<int>(0, graph);
 
-            IList<WeightedEdge> shortestPath = shortestPaths.GetShortestPath(vertexTo).ToList();
-            foreach(var edge in shortestPath)
-            {
-                System.Console.Write($"{edge} ");
-            }
-
+            IList<WeightedEdge<int>> shortestPath = shortestPaths.GetShortestPath(vertexTo).ToList();
+  
             Assert.AreEqual(expectedWeight, Math.Round(shortestPath.Sum(x => x.Weight), 2));
+        }
+
+        [TestMethod]
+        public void ShortestPathsEmptyInNotConnectedGraph()
+        {
+            WeightedGraph<int> graph = new WeightedGraph<int>();
+
+            graph.AddEdge(0, 1, 10);
+            graph.AddEdge(0, 2, 10);
+            graph.AddEdge(0, 4, 10);
+
+            GraphShortestPaths<int> shortestPaths = new GraphShortestPaths<int>(1, graph);
+
+            Assert.AreEqual(0, shortestPaths.GetShortestPath(0).Count);
+            Assert.AreEqual(0, shortestPaths.GetShortestPath(2).Count);
+            Assert.AreEqual(0, shortestPaths.GetShortestPath(4).Count);
+        }
+
+        [TestMethod]
+        public void ShortestPathDoesnotContainEmptyEdge()
+        {
+            WeightedGraph<int> graph = new WeightedGraph<int>();
+
+            graph.AddEdge(0, 1, 10);
+            graph.AddEdge(0, 2, 10);
+            graph.AddEdge(1, 3, 10);
+            graph.AddEdge(0, 4, 10);
+
+            GraphShortestPaths<int> shortestPaths = new GraphShortestPaths<int>(0, graph);
+
+            Assert.AreEqual(2, shortestPaths.GetShortestPath(3).Count);
+            CollectionAssert.DoesNotContain((ICollection) shortestPaths.GetShortestPath(3), WeightedEdge<int>.None);
+        }
+
+        [TestMethod]
+        public void ShortestPathWithSymbolicLabelsGraph()
+        {
+            WeightedGraph<char> graph = new WeightedGraph<char>();
+
+            graph.AddEdge('A', 'B', 1);
+            graph.AddEdge('B', 'C', 2);
+            graph.AddEdge('A', 'C', 4);
+
+            GraphShortestPaths<char> shortestPaths = new GraphShortestPaths<char>('A', graph);
+
+            ICollection<WeightedEdge<char>> shortestPath = shortestPaths.GetShortestPath('C');
+
+            Assert.AreEqual(2, shortestPath.Count, "Count");
+            Assert.AreEqual(new WeightedEdge<char>('A', 'B', 1), shortestPath.ElementAt(0));
+            Assert.AreEqual(new WeightedEdge<char>('B', 'C', 2), shortestPath.ElementAt(1));
         }
     }
 }

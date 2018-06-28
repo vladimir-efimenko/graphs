@@ -6,7 +6,7 @@ namespace Graphs
     {
         static void Main(string[] args)
         {
-            WeightedGraph graph = new WeightedGraph();
+            WeightedGraph<int> graph = new WeightedGraph<int>();
 
             graph.AddEdge(0, 1, 10);
             graph.AddEdge(0, 2, 5);

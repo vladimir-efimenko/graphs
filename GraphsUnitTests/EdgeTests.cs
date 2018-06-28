@@ -11,8 +11,8 @@ namespace GraphsUnitTests
         [TestMethod]
         public void MaxValueEdgeIsLessThanPositiveInfinityEdge()
         {
-            var edge1 = new WeightedEdge(0, 1, double.MaxValue);
-            var edge2 = new WeightedEdge(0, 1, double.PositiveInfinity);
+            var edge1 = new WeightedEdge<int>(0, 1, double.MaxValue);
+            var edge2 = new WeightedEdge<int>(0, 1, double.PositiveInfinity);
 
             Assert.AreEqual(-1, edge1.CompareTo(edge2));
         }
@@ -20,12 +20,12 @@ namespace GraphsUnitTests
         [TestMethod]
         public void PriorityMinEdgeFindsFirst()
         {
-            IPriorityQueue<WeightedEdge> queue = new IntervalHeap<WeightedEdge>();
+            IPriorityQueue<WeightedEdge<int>> queue = new IntervalHeap<WeightedEdge<int>>();
 
-            queue.Add(new WeightedEdge(0, 1, 1));
-            queue.Add(new WeightedEdge(1, 2, Double.PositiveInfinity));
+            queue.Add(new WeightedEdge<int>(0, 1, 1));
+            queue.Add(new WeightedEdge<int>(1, 2, Double.PositiveInfinity));
 
-            Assert.AreEqual(new WeightedEdge(0, 1, 1), queue.FindMin());
+            Assert.AreEqual(new WeightedEdge<int>(0, 1, 1), queue.FindMin());
         }
     }
 }

@@ -29,19 +29,19 @@ namespace Graphs
 
         public SCG.ICollection<WeightedEdge<T>> GetShortestPath(T to)
         {
-            SCG.Stack<WeightedEdge<T>> stack = new SCG.Stack<WeightedEdge<T>>();
+            LinkedList<WeightedEdge<T>> stack = new LinkedList<WeightedEdge<T>>();
 
             if (_parents.Contains(to))
             {
                 WeightedEdge<T> edge = _parents[to];
                 while (edge != WeightedEdge<T>.None)
                 {
-                    stack.Push(edge);
+                    stack.InsertFirst(edge);
                     edge = _parents[edge.From];
                 }
             }
 
-            return stack.ToList();
+            return stack;
         }
 
         private void InitQueue()

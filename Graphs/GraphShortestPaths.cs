@@ -48,7 +48,7 @@ namespace Graphs
         {
             _calcWeights.Add(From, 0);
             _parents.Add(From, WeightedEdge<T>.None);
-            _priorityQueue.Insert(From, 0);
+            _priorityQueue.Add(From, 0);
 
             foreach (WeightedEdge<T> edge in Graph)
             {
@@ -63,7 +63,7 @@ namespace Graphs
         {
             while (!_priorityQueue.Empty)
             {
-                T vertex = _priorityQueue.DelMin();
+                T vertex = _priorityQueue.DeleteMin();
                 Trace.WriteLine($"Vertex {vertex} processing: ");
                 foreach (WeightedEdge<T> adj in Graph.GetAdjacencyList(vertex))
                 {
@@ -81,7 +81,7 @@ namespace Graphs
                         if (_priorityQueue.Contains(adj.To))
                             _priorityQueue.Change(adj.To, newWeight);
                         else
-                            _priorityQueue.Insert(adj.To, newWeight);
+                            _priorityQueue.Add(adj.To, newWeight);
                     }
                 }
             }

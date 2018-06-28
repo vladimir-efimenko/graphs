@@ -8,7 +8,7 @@ namespace Graphs
         private readonly IPriorityQueue<QueueItem> _priorityQueue = new IntervalHeap<QueueItem>();
         private readonly IDictionary<T, IPriorityQueueHandle<QueueItem>> _handles = new HashDictionary<T, IPriorityQueueHandle<QueueItem>>();
 
-        public void Insert(T vertex, double weight)
+        public void Add(T vertex, double weight)
         {
             IPriorityQueueHandle<QueueItem> h = null;
             _priorityQueue.Add(ref h, new QueueItem(vertex, weight));
@@ -23,12 +23,17 @@ namespace Graphs
             _handles[vertex] = h;
         }
 
-        public T DelMin()
+        public T DeleteMin()
         {
             return _priorityQueue.DeleteMin().To;
         }
 
         public bool Contains(T vertex)
+        {
+            return _handles.Contains(vertex) && _priorityQueue.Find(_handles[vertex], out _);
+        }
+
+        public bool Exists(T vertex)
         {
             return _priorityQueue.Exists(item => item.To.Equals(vertex));
         }

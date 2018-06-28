@@ -13,11 +13,12 @@ namespace GraphsUnitTests
         [TestMethod]
         public void ShortestPathsWithOneEdgeLength()
         {
-            WeightedGraph<int> graph = new WeightedGraph<int>();
-
-            graph.AddEdge(0, 1, 10);
-            graph.AddEdge(0, 2, 5);
-            graph.AddEdge(0, 3, 7);
+            WeightedGraph<int> graph = new WeightedGraph<int>
+            {
+                new WeightedEdge<int>(0, 1, 10),
+                new WeightedEdge<int>(0, 2, 5),
+                new WeightedEdge<int>(0, 3, 7)
+            };
 
             GraphShortestPaths<int> shortestPaths = new GraphShortestPaths<int>(0, graph);
 
@@ -40,13 +41,14 @@ namespace GraphsUnitTests
         [TestMethod]
         public void ShortestPathsWithFiveEdges()
         {
-            WeightedGraph<int> graph = new WeightedGraph<int>();
-
-            graph.AddEdge(1, 2, 7);
-            graph.AddEdge(1, 3, 9);
-            graph.AddEdge(2, 4, 15);
-            graph.AddEdge(2, 3, 10);
-            graph.AddEdge(3, 4, 11);
+            WeightedGraph<int> graph = new WeightedGraph<int>
+            {
+                new WeightedEdge<int>(1, 2, 7),
+                new WeightedEdge<int>(1, 3, 9),
+                new WeightedEdge<int>(2, 4, 15),
+                new WeightedEdge<int>(2, 3, 10),
+                new WeightedEdge<int>(3, 4, 11)
+            };
 
             GraphShortestPaths<int> shortestPaths = new GraphShortestPaths<int>(1, graph);
 
@@ -66,23 +68,24 @@ namespace GraphsUnitTests
         [DataTestMethod]
         public void ShortedPathsWithSeveralEdges(int vertexTo, double expectedWeight)
         {
-            WeightedGraph<int> graph = new WeightedGraph<int>();
-
-            graph.AddEdge(0, 2, 0.26);
-            graph.AddEdge(0, 4, 0.38);
-            graph.AddEdge(2, 7, 0.34);
-            graph.AddEdge(4, 5, 0.35);
-            graph.AddEdge(5, 4, 0.35);
-            graph.AddEdge(4, 7, 0.37);
-            graph.AddEdge(5, 7, 0.28);
-            graph.AddEdge(7, 5, 0.28);
-            graph.AddEdge(7, 3, 0.39);
-            graph.AddEdge(1, 3, 0.29);
-            graph.AddEdge(6, 2, 0.40);
-            graph.AddEdge(6, 0, 0.58);
-            graph.AddEdge(6, 4, 0.93);
-            graph.AddEdge(5, 1, 0.32);
-            graph.AddEdge(3, 6, 0.52);
+            WeightedGraph<int> graph = new WeightedGraph<int>
+            {
+                new WeightedEdge<int>(0, 2, 0.26),
+                new WeightedEdge<int>(0, 4, 0.38),
+                new WeightedEdge<int>(2, 7, 0.34),
+                new WeightedEdge<int>(4, 5, 0.35),
+                new WeightedEdge<int>(5, 4, 0.35),
+                new WeightedEdge<int>(4, 7, 0.37),
+                new WeightedEdge<int>(5, 7, 0.28),
+                new WeightedEdge<int>(7, 5, 0.28),
+                new WeightedEdge<int>(7, 3, 0.39),
+                new WeightedEdge<int>(1, 3, 0.29),
+                new WeightedEdge<int>(6, 2, 0.40),
+                new WeightedEdge<int>(6, 0, 0.58),
+                new WeightedEdge<int>(6, 4, 0.93),
+                new WeightedEdge<int>(5, 1, 0.32),
+                new WeightedEdge<int>(3, 6, 0.52)
+            };
 
             GraphShortestPaths<int> shortestPaths = new GraphShortestPaths<int>(0, graph);
 
@@ -94,11 +97,13 @@ namespace GraphsUnitTests
         [TestMethod]
         public void ShortestPathsEmptyInNotConnectedGraph()
         {
-            WeightedGraph<int> graph = new WeightedGraph<int>();
+            WeightedGraph<int> graph = new WeightedGraph<int>
+            {
+                new WeightedEdge<int>(0, 1, 10),
+                new WeightedEdge<int>(0, 2, 10),
+                new WeightedEdge<int>(0, 4, 10)
 
-            graph.AddEdge(0, 1, 10);
-            graph.AddEdge(0, 2, 10);
-            graph.AddEdge(0, 4, 10);
+            };
 
             GraphShortestPaths<int> shortestPaths = new GraphShortestPaths<int>(1, graph);
 
@@ -110,12 +115,13 @@ namespace GraphsUnitTests
         [TestMethod]
         public void ShortestPathDoesnotContainEmptyEdge()
         {
-            WeightedGraph<int> graph = new WeightedGraph<int>();
-
-            graph.AddEdge(0, 1, 10);
-            graph.AddEdge(0, 2, 10);
-            graph.AddEdge(1, 3, 10);
-            graph.AddEdge(0, 4, 10);
+            WeightedGraph<int> graph = new WeightedGraph<int>
+            {
+                new WeightedEdge<int>(0, 1, 10),
+                new WeightedEdge<int>(0, 2, 10),
+                new WeightedEdge<int>(1, 3, 10),
+                new WeightedEdge<int>(0, 4, 10)
+            };
 
             GraphShortestPaths<int> shortestPaths = new GraphShortestPaths<int>(0, graph);
 
@@ -126,11 +132,12 @@ namespace GraphsUnitTests
         [TestMethod]
         public void ShortestPathWithSymbolicLabelsGraph()
         {
-            WeightedGraph<char> graph = new WeightedGraph<char>();
-
-            graph.AddEdge('A', 'B', 1);
-            graph.AddEdge('B', 'C', 2);
-            graph.AddEdge('A', 'C', 4);
+            WeightedGraph<char> graph = new WeightedGraph<char>
+            {
+                new WeightedEdge<char>('A', 'B', 1),
+                new WeightedEdge<char>('B', 'C', 2),
+                new WeightedEdge<char>('A', 'C', 4)
+            };
 
             GraphShortestPaths<char> shortestPaths = new GraphShortestPaths<char>('A', graph);
 

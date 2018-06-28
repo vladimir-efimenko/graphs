@@ -4,14 +4,14 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace GraphsUnitTests
 {
     [TestClass]
-    public class VertexPriorityQueueTests
+    public class PriorityQueueTests
     {
-        private VertexPriorityQueue<int> _pq;
+        private PriorityQueue<int> _pq;
 
         [TestInitialize]
         public void Setup()
         {
-            _pq = new VertexPriorityQueue<int>();
+            _pq = new PriorityQueue<int>();
         }
 
         [DataRow(1, true)]

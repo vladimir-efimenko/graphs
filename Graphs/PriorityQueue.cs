@@ -6,7 +6,7 @@ namespace Graphs
     /// <summary>
     /// Convenient wrapper around <see cref="C5.IntervalHeap{T}"/>.
     /// </summary>
-    public class VertexPriorityQueue<T> where T : IComparable<T>
+    public class PriorityQueue<T> where T : IComparable<T>
     {
         private readonly IPriorityQueue<QueueItem> _priorityQueue = new IntervalHeap<QueueItem>();
         private readonly IDictionary<T, IPriorityQueueHandle<QueueItem>> _handles = new HashDictionary<T, IPriorityQueueHandle<QueueItem>>();
@@ -28,7 +28,7 @@ namespace Graphs
 
         public T DeleteMin()
         {
-            return _priorityQueue.DeleteMin().Vertex;
+            return _priorityQueue.DeleteMin().Item;
         }
 
         public bool Contains(T vertex)
@@ -40,13 +40,13 @@ namespace Graphs
 
         private struct QueueItem : IComparable<QueueItem>
         {
-            public QueueItem(T vertex, double weight)
+            public QueueItem(T item, double weight)
             {
-                Vertex = vertex;
+                Item = item;
                 Weight = weight;
             }
 
-            public T Vertex { get; }
+            public T Item { get; }
             public double Weight { get; }
 
             public int CompareTo(QueueItem other)

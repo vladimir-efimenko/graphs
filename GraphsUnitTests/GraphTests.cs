@@ -9,12 +9,13 @@ namespace GraphsUnitTests
     {
         private WeightedGraph<int> GetTestGraph()
         {
-            WeightedGraph<int> graph = new WeightedGraph<int>();
-
-            graph.AddEdge(0, 1, 10);
-            graph.AddEdge(0, 2, 5);
-            graph.AddEdge(0, 3, 3);
-            graph.AddEdge(1, 2, 7);
+            WeightedGraph<int> graph = new WeightedGraph<int>
+            {
+                new WeightedEdge<int>(0, 1, 10),
+                new WeightedEdge<int>(0, 2, 5),
+                new WeightedEdge<int>(0, 3, 3),
+                new WeightedEdge<int>(1, 2, 7)
+            };
 
             return graph;
         }

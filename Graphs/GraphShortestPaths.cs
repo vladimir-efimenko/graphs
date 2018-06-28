@@ -8,7 +8,7 @@ namespace Graphs
 {
     public class GraphShortestPaths<T> where T : IComparable<T>
     {
-        private readonly VertexPriorityQueue<T> _priorityQueue;
+        private readonly PriorityQueue<T> _priorityQueue;
         private readonly IDictionary<T, WeightedEdge<T>> _parents;
         private readonly IDictionary<T, double> _calcWeights;
 
@@ -18,7 +18,7 @@ namespace Graphs
             Graph = graph;
             _parents = new HashDictionary<T, WeightedEdge<T>>();
             _calcWeights = new HashDictionary<T, double>();
-            _priorityQueue = new VertexPriorityQueue<T>();
+            _priorityQueue = new PriorityQueue<T>();
             InitQueue();
             BuildShortestPaths();
         }

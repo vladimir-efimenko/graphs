@@ -17,7 +17,10 @@ namespace Graphs
         /// </summary>
         private readonly IDictionary<T, HashSet<WeightedEdge<T>>> _edgeMap = new SortedDictionary<T, HashSet<WeightedEdge<T>>>();
 
-        public void AddEdge(T from, T to, double weight)
+        /// <summary>
+        /// Adds a new weighted edge.
+        /// </summary>
+        public void Add(T from, T to, double weight)
         {
             if (!_edgeMap.ContainsKey(from))
             {
@@ -26,9 +29,12 @@ namespace Graphs
             _edgeMap[from].Add(new WeightedEdge<T>(from, to, weight));
         }
 
-        public void AddEdge(WeightedEdge<T> edge)
+        /// <summary>
+        /// Adds a new weighted edge.
+        /// </summary>
+        public void Add(WeightedEdge<T> edge)
         {
-            AddEdge(edge.From, edge.To, edge.Weight);
+            Add(edge.From, edge.To, edge.Weight);
         }
 
         public double GetWeight()

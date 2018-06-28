@@ -3,6 +3,9 @@ using System;
 
 namespace Graphs
 {
+    /// <summary>
+    /// Convenient wrapper around <see cref="C5.IntervalHeap{T}"/>.
+    /// </summary>
     public class VertexPriorityQueue<T> where T : IComparable<T>
     {
         private readonly IPriorityQueue<QueueItem> _priorityQueue = new IntervalHeap<QueueItem>();
@@ -25,7 +28,7 @@ namespace Graphs
 
         public T DeleteMin()
         {
-            return _priorityQueue.DeleteMin().To;
+            return _priorityQueue.DeleteMin().Vertex;
         }
 
         public bool Contains(T vertex)
@@ -33,22 +36,17 @@ namespace Graphs
             return _handles.Contains(vertex) && _priorityQueue.Find(_handles[vertex], out _);
         }
 
-        public bool Exists(T vertex)
-        {
-            return _priorityQueue.Exists(item => item.To.Equals(vertex));
-        }
-
         public bool Empty => _priorityQueue.IsEmpty;
 
-        struct QueueItem : IComparable<QueueItem>
+        private struct QueueItem : IComparable<QueueItem>
         {
-            public QueueItem(T to, double weight)
+            public QueueItem(T vertex, double weight)
             {
-                To = to;
+                Vertex = vertex;
                 Weight = weight;
             }
 
-            public T To { get; }
+            public T Vertex { get; }
             public double Weight { get; }
 
             public int CompareTo(QueueItem other)

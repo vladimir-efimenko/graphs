@@ -2,6 +2,10 @@
 
 namespace Graphs
 {
+    /// <summary>
+    /// Represents a directed edge, where from and to vertices can be any comparable type.
+    /// </summary>
+    /// <typeparam name="T">A type of edge label.</typeparam>
     public struct WeightedEdge<T> : IEquatable<WeightedEdge<T>>, IComparable<WeightedEdge<T>> where T : IComparable<T>
     {
         public static readonly WeightedEdge<T> None = new WeightedEdge<T>(default(T), default(T), 0);

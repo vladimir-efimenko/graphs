@@ -8,6 +8,7 @@ namespace Graphs
 {
     /// <summary>
     /// Represents weighted oriented graph.
+    /// <typeparam name="T">A type of edge label.</typeparam>
     /// </summary>
     public class WeightedGraph<T> : IEnumerable<WeightedEdge<T>> where T : IComparable<T>
     {

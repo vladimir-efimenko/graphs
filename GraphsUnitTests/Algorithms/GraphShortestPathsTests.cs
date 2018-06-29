@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Graphs;
+using Graphs.Algorithms;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace GraphsUnitTests
@@ -13,14 +14,14 @@ namespace GraphsUnitTests
         [TestMethod]
         public void ShortestPathsWithOneEdgeLength()
         {
-            WeightedGraph<int> graph = new WeightedGraph<int>
+            WeightedDirectedGraph<int> directedGraph = new WeightedDirectedGraph<int>
             {
                 new WeightedEdge<int>(0, 1, 10),
                 new WeightedEdge<int>(0, 2, 5),
                 new WeightedEdge<int>(0, 3, 7)
             };
 
-            GraphShortestPaths<int> shortestPaths = new GraphShortestPaths<int>(0, graph);
+            GraphShortestPaths<int> shortestPaths = new GraphShortestPaths<int>(0, directedGraph);
 
             IList<WeightedEdge<int>> shortestPath = shortestPaths.GetShortestPath(1).ToList();
 
@@ -41,7 +42,7 @@ namespace GraphsUnitTests
         [TestMethod]
         public void ShortestPathsWithFiveEdges()
         {
-            WeightedGraph<int> graph = new WeightedGraph<int>
+            WeightedDirectedGraph<int> directedGraph = new WeightedDirectedGraph<int>
             {
                 new WeightedEdge<int>(1, 2, 7),
                 new WeightedEdge<int>(1, 3, 9),
@@ -50,7 +51,7 @@ namespace GraphsUnitTests
                 new WeightedEdge<int>(3, 4, 11)
             };
 
-            GraphShortestPaths<int> shortestPaths = new GraphShortestPaths<int>(1, graph);
+            GraphShortestPaths<int> shortestPaths = new GraphShortestPaths<int>(1, directedGraph);
 
             IList<WeightedEdge<int>> shortestPath = shortestPaths.GetShortestPath(4).ToList();
 
@@ -68,7 +69,7 @@ namespace GraphsUnitTests
         [DataTestMethod]
         public void ShortedPathsWithSeveralEdges(int vertexTo, double expectedWeight)
         {
-            WeightedGraph<int> graph = new WeightedGraph<int>
+            WeightedDirectedGraph<int> directedGraph = new WeightedDirectedGraph<int>
             {
                 new WeightedEdge<int>(0, 2, 0.26),
                 new WeightedEdge<int>(0, 4, 0.38),
@@ -87,7 +88,7 @@ namespace GraphsUnitTests
                 new WeightedEdge<int>(3, 6, 0.52)
             };
 
-            GraphShortestPaths<int> shortestPaths = new GraphShortestPaths<int>(0, graph);
+            GraphShortestPaths<int> shortestPaths = new GraphShortestPaths<int>(0, directedGraph);
 
             IList<WeightedEdge<int>> shortestPath = shortestPaths.GetShortestPath(vertexTo).ToList();
   
@@ -97,7 +98,7 @@ namespace GraphsUnitTests
         [TestMethod]
         public void ShortestPathsEmptyInNotConnectedGraph()
         {
-            WeightedGraph<int> graph = new WeightedGraph<int>
+            WeightedDirectedGraph<int> directedGraph = new WeightedDirectedGraph<int>
             {
                 new WeightedEdge<int>(0, 1, 10),
                 new WeightedEdge<int>(0, 2, 10),
@@ -105,7 +106,7 @@ namespace GraphsUnitTests
 
             };
 
-            GraphShortestPaths<int> shortestPaths = new GraphShortestPaths<int>(1, graph);
+            GraphShortestPaths<int> shortestPaths = new GraphShortestPaths<int>(1, directedGraph);
 
             Assert.AreEqual(0, shortestPaths.GetShortestPath(0).Count);
             Assert.AreEqual(0, shortestPaths.GetShortestPath(2).Count);
@@ -115,7 +116,7 @@ namespace GraphsUnitTests
         [TestMethod]
         public void ShortestPathDoesnotContainEmptyEdge()
         {
-            WeightedGraph<int> graph = new WeightedGraph<int>
+            WeightedDirectedGraph<int> directedGraph = new WeightedDirectedGraph<int>
             {
                 new WeightedEdge<int>(0, 1, 10),
                 new WeightedEdge<int>(0, 2, 10),
@@ -123,7 +124,7 @@ namespace GraphsUnitTests
                 new WeightedEdge<int>(0, 4, 10)
             };
 
-            GraphShortestPaths<int> shortestPaths = new GraphShortestPaths<int>(0, graph);
+            GraphShortestPaths<int> shortestPaths = new GraphShortestPaths<int>(0, directedGraph);
 
             Assert.AreEqual(2, shortestPaths.GetShortestPath(3).Count);
             CollectionAssert.DoesNotContain((ICollection) shortestPaths.GetShortestPath(3), WeightedEdge<int>.None);
@@ -132,14 +133,14 @@ namespace GraphsUnitTests
         [TestMethod]
         public void ShortestPathWithSymbolicLabelsGraph()
         {
-            WeightedGraph<char> graph = new WeightedGraph<char>
+            WeightedDirectedGraph<char> directedGraph = new WeightedDirectedGraph<char>
             {
                 new WeightedEdge<char>('A', 'B', 1),
                 new WeightedEdge<char>('B', 'C', 2),
                 new WeightedEdge<char>('A', 'C', 4)
             };
 
-            GraphShortestPaths<char> shortestPaths = new GraphShortestPaths<char>('A', graph);
+            GraphShortestPaths<char> shortestPaths = new GraphShortestPaths<char>('A', directedGraph);
 
             ICollection<WeightedEdge<char>> shortestPath = shortestPaths.GetShortestPath('C');
 

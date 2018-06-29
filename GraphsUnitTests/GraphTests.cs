@@ -7,9 +7,9 @@ namespace GraphsUnitTests
     [TestClass]
     public class GraphTests
     {
-        private WeightedGraph<int> GetTestGraph()
+        private WeightedDirectedGraph<int> GetTestGraph()
         {
-            WeightedGraph<int> graph = new WeightedGraph<int>
+            WeightedDirectedGraph<int> directedGraph = new WeightedDirectedGraph<int>
             {
                 new WeightedEdge<int>(0, 1, 10),
                 new WeightedEdge<int>(0, 2, 5),
@@ -17,23 +17,23 @@ namespace GraphsUnitTests
                 new WeightedEdge<int>(1, 2, 7)
             };
 
-            return graph;
+            return directedGraph;
         }
 
         [TestMethod]
         public void GetWeightTest()
         {
-            WeightedGraph<int> graph = GetTestGraph();
+            WeightedDirectedGraph<int> directedGraph = GetTestGraph();
 
-            Assert.AreEqual(25, graph.GetWeight());
+            Assert.AreEqual(25, directedGraph.GetWeight());
         }
 
         [TestMethod]
         public void GetAdjacencyListTest()
         {
-            WeightedGraph<int> graph = GetTestGraph();
+            WeightedDirectedGraph<int> directedGraph = GetTestGraph();
 
-            ICollection<WeightedEdge<int>> adjacencyList = graph.GetAdjacencyList(0);
+            ICollection<WeightedEdge<int>> adjacencyList = directedGraph.GetAdjacencyList(0);
 
             Assert.AreEqual(3, adjacencyList.Count, "Adjacency list count");
             Assert.IsTrue(adjacencyList.Contains(new WeightedEdge<int>(0, 1, 10)));
@@ -44,9 +44,9 @@ namespace GraphsUnitTests
         [TestMethod]
         public void GetEdgeTest()
         {
-            WeightedGraph<int> graph = GetTestGraph();
+            WeightedDirectedGraph<int> directedGraph = GetTestGraph();
 
-            Assert.AreEqual(new WeightedEdge<int>(1, 2, 7), graph.GetEdge(1, 2));
+            Assert.AreEqual(new WeightedEdge<int>(1, 2, 7), directedGraph.GetEdge(1, 2));
         }
     }
 }

@@ -1,59 +1,35 @@
 ﻿using System;
-using System.Text;
-using System.Collections.Generic;
 using System.Collections;
-using System.Linq;
+using SCG = System.Collections.Generic;
+using C5;
+using System.Text;
 
 namespace Graphs
 {
-    /// <summary>
-    /// Represents weighted oriented graph.
-    /// <typeparam name="T">A type of edge label.</typeparam>
-    /// </summary>
-    public class WeightedGraph<T> : IEnumerable<WeightedEdge<T>> where T : IComparable<T>
+    public abstract class WeightedGraph<T> : SCG.IEnumerable<WeightedEdge<T>> where T : IComparable<T>
     {
         /// <summary>
         /// Adjacent edges map.
         /// </summary>
-        private readonly IDictionary<T, HashSet<WeightedEdge<T>>> _edgeMap = new SortedDictionary<T, HashSet<WeightedEdge<T>>>();
+        protected readonly IDictionary<T, HashSet<WeightedEdge<T>>> EdgeMap = new HashDictionary<T, HashSet<WeightedEdge<T>>>();
 
         /// <summary>
         /// Adds a new weighted edge.
         /// </summary>
-        public void Add(T from, T to, double weight)
-        {
-            if (!_edgeMap.ContainsKey(from))
-            {
-                _edgeMap.Add(from, new HashSet<WeightedEdge<T>>());
-            }
-            _edgeMap[from].Add(new WeightedEdge<T>(from, to, weight));
-        }
+        public abstract void Add(WeightedEdge<T> edge);
 
-        /// <summary>
-        /// Adds a new weighted edge.
-        /// </summary>
-        public void Add(WeightedEdge<T> edge)
+        public SCG.ICollection<WeightedEdge<T>> GetAdjacencyList(T vertex)
         {
-            Add(edge.From, edge.To, edge.Weight);
-        }
-
-        public double GetWeight()
-        {
-            return this.Sum(edge => edge.Weight);
-        }
-
-        public ICollection<WeightedEdge<T>> GetAdjacencyList(T vertex)
-        {
-            if (!_edgeMap.ContainsKey(vertex))
-                return new List<WeightedEdge<T>>();
-            return _edgeMap[vertex];
+            if (!EdgeMap.Contains(vertex))
+                return new ArrayList<WeightedEdge<T>>();
+            return EdgeMap[vertex];
         }
 
         public WeightedEdge<T> GetEdge(T from, T to)
         {
-            if (_edgeMap.ContainsKey(from))
+            if (EdgeMap.Contains(from))
             {
-                foreach (WeightedEdge<T> edge in _edgeMap[from])
+                foreach (WeightedEdge<T> edge in EdgeMap[from])
                 {
                     if (edge.To.Equals(to))
                         return edge;
@@ -61,14 +37,14 @@ namespace Graphs
             }
             return WeightedEdge<T>.None;
         }
-             
+
         public override string ToString()
         {
             StringBuilder res = new StringBuilder();
-            foreach(T from in _edgeMap.Keys)
+            foreach (T from in EdgeMap.Keys)
             {
-                res.Append($"{from}: "); 
-                foreach(WeightedEdge<T> edge in _edgeMap[from])
+                res.Append($"{from}: ");
+                foreach (WeightedEdge<T> edge in EdgeMap[from])
                 {
                     res.Append($"{edge.To} - {edge.Weight} ");
                 }
@@ -77,11 +53,11 @@ namespace Graphs
             return res.ToString();
         }
 
-        public IEnumerator<WeightedEdge<T>> GetEnumerator()
+        public SCG.IEnumerator<WeightedEdge<T>> GetEnumerator()
         {
-            foreach (T from in _edgeMap.Keys)
+            foreach (T from in EdgeMap.Keys)
             {
-                foreach (WeightedEdge<T> edge in _edgeMap[from])
+                foreach (WeightedEdge<T> edge in EdgeMap[from])
                 {
                     yield return edge;
                 }

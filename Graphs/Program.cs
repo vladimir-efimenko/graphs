@@ -6,15 +6,15 @@ namespace Graphs
     {
         static void Main(string[] args)
         {
-            WeightedGraph<int> graph = new WeightedGraph<int>();
+            WeightedDirectedGraph<int> directedGraph = new WeightedDirectedGraph<int>();
 
-            graph.Add(0, 1, 10);
-            graph.Add(0, 2, 5);
-            graph.Add(0, 3, 3);
-            graph.Add(1, 2, 7);
+            directedGraph.Add(0, 1, 10);
+            directedGraph.Add(0, 2, 5);
+            directedGraph.Add(0, 3, 3);
+            directedGraph.Add(1, 2, 7);
 
-            Console.WriteLine(graph);
-            Console.WriteLine($"Graph weight: {graph.GetWeight()}");
+            Console.WriteLine(directedGraph);
+            Console.WriteLine($"Graph weight: {directedGraph.GetWeight()}");
         }
     }
 }

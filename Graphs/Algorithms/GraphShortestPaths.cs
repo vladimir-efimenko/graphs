@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Linq;
-using SCG = System.Collections.Generic;
 using System.Diagnostics;
 using C5;
+using SCG = System.Collections.Generic;
 
-namespace Graphs
+namespace Graphs.Algorithms
 {
     public class GraphShortestPaths<T> where T : IComparable<T>
     {
@@ -12,10 +11,10 @@ namespace Graphs
         private readonly IDictionary<T, WeightedEdge<T>> _parents;
         private readonly IDictionary<T, double> _calcWeights;
 
-        public GraphShortestPaths(T from, WeightedGraph<T> graph)
+        public GraphShortestPaths(T from, WeightedDirectedGraph<T> directedGraph)
         {
             From = from;
-            Graph = graph;
+            DirectedGraph = directedGraph;
             _parents = new HashDictionary<T, WeightedEdge<T>>();
             _calcWeights = new HashDictionary<T, double>();
             _priorityQueue = new PriorityQueue<T>();
@@ -25,7 +24,7 @@ namespace Graphs
 
         public T From { get; }
 
-        public WeightedGraph<T> Graph { get; }
+        public WeightedDirectedGraph<T> DirectedGraph { get; }
 
         public SCG.ICollection<WeightedEdge<T>> GetShortestPath(T to)
         {
@@ -50,7 +49,7 @@ namespace Graphs
             _parents.Add(From, WeightedEdge<T>.None);
             _priorityQueue.Add(From, 0);
 
-            foreach (WeightedEdge<T> edge in Graph)
+            foreach (WeightedEdge<T> edge in DirectedGraph)
             {
                 if (!_calcWeights.Contains(edge.To))
                     _calcWeights.Add(edge.To, double.PositiveInfinity);
@@ -65,12 +64,14 @@ namespace Graphs
             {
                 T vertex = _priorityQueue.DeleteMin();
                 Trace.WriteLine($"Vertex {vertex} processing: ");
-                foreach (WeightedEdge<T> adj in Graph.GetAdjacencyList(vertex))
+                foreach (WeightedEdge<T> adj in DirectedGraph.GetAdjacencyList(vertex))
                 {
                     Debug.Assert(adj.From.Equals(vertex));
                     Trace.WriteLine($"Adjacent edge processing: {adj}");
+
                     double weight = _calcWeights[adj.To];
                     double newWeight = _calcWeights[adj.From] + adj.Weight;
+
                     Trace.WriteLine($"Current Weight: {weight}");
                     Trace.WriteLine($"Calculated Weight: {newWeight}");
 

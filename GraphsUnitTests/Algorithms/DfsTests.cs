@@ -1,5 +1,4 @@
-﻿using System;
-using Graphs;
+﻿using Graphs;
 using Graphs.Algorithms;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -11,7 +10,7 @@ namespace GraphsUnitTests.Algorithms
         [TestMethod]
         public void CanSumDirectedGraphWeightsCorrectlyWhenTraverseInDfsOrder()
         {
-            WeightedDirectedGraph<int> directedGraph = new WeightedDirectedGraph<int>
+            WeightedDiGraph<int> directedGraph = new WeightedDiGraph<int>
             {
                 new WeightedEdge<int>(2, 3, 9),
                 new WeightedEdge<int>(1, 2, 10),
@@ -31,7 +30,7 @@ namespace GraphsUnitTests.Algorithms
         [TestMethod]
         public void CanSumUndirectedGraphWeightsCorrectlyWhenTraverseInDfsOrder()
         {
-            WeightedUndirectedGraph<int> graph = new WeightedUndirectedGraph<int>
+            WeightedGraph<int> graph = new WeightedGraph<int>
             {
                 new WeightedEdge<int>(2, 3, 9),
                 new WeightedEdge<int>(1, 2, 10),
@@ -42,11 +41,7 @@ namespace GraphsUnitTests.Algorithms
             };
             double weight = 0;
 
-            Dfs<int> dfs = new Dfs<int>(graph, edge =>
-            {
-                weight += edge.Weight;
-                Console.WriteLine(edge);
-            });
+            Dfs<int> dfs = new Dfs<int>(graph, edge => weight += edge.Weight);
             dfs.Traverse();
 
             Assert.AreEqual(0, weight);

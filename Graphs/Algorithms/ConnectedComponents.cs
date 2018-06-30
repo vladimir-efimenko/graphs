@@ -55,5 +55,22 @@ namespace Graphs.Algorithms
         {
             return _components.Count;
         }
+
+        public bool Connected(T vertex1, T vertex2)
+        {
+            if (Count() == 0) return false;
+            foreach(T vertex in _components.Keys)
+            {
+                HashSet<T> adjLst = _components[vertex];
+                if (vertex.Equals(vertex1))
+                    return adjLst.Contains(vertex2);
+                if (vertex.Equals(vertex2))
+                    return adjLst.Contains(vertex1);
+                if (adjLst.Contains(vertex1) && adjLst.Contains(vertex2))
+                    return true;
+            }
+
+            return false;
+        }
     }
 }

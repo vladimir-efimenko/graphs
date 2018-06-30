@@ -10,7 +10,7 @@ namespace Graphs.Algorithms
         private readonly Action<WeightedEdge<T>> _traverseAction;
         private readonly IDictionary<T, bool> _visited;
 
-        public Dfs(WeightedGraph<T> graph, Action<WeightedEdge<T>> traverseAction)
+        public Dfs(WeightedGraph<T> graph, Action<WeightedEdge<T>> traverseAction = null)
         {
             _graph = graph;
             _traverseAction = traverseAction;
@@ -47,7 +47,7 @@ namespace Graphs.Algorithms
             _visited[vertex] = true;
             foreach (WeightedEdge<T> edge in _graph.GetAdjacencyList(vertex))
             {
-                _traverseAction(edge);
+                _traverseAction?.Invoke(edge);
                 if (!_visited[edge.To])
                 {
                     Visit(edge.To);

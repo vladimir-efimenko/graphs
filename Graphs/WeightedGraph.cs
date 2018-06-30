@@ -6,7 +6,11 @@ using System.Text;
 
 namespace Graphs
 {
-    public abstract class WeightedGraph<T> : SCG.IEnumerable<WeightedEdge<T>> where T : IComparable<T>
+    /// <summary>
+    /// Represents weighted undirected graph.
+    /// <typeparam name="T">A type of edge label.</typeparam>
+    /// </summary>
+    public class WeightedGraph<T> : SCG.IEnumerable<WeightedEdge<T>> where T : IComparable<T>
     {
         /// <summary>
         /// Adjacent edges map.
@@ -16,7 +20,20 @@ namespace Graphs
         /// <summary>
         /// Adds a new weighted edge.
         /// </summary>
-        public abstract void Add(WeightedEdge<T> edge);
+        public virtual void Add(WeightedEdge<T> edge)
+        {
+            if(!EdgeMap.Contains(edge.From))
+            {
+                EdgeMap.Add(edge.From, new HashSet<WeightedEdge<T>>());
+            }
+            EdgeMap[edge.From].Add(edge);
+
+            if (!EdgeMap.Contains(edge.To))
+            {
+                EdgeMap.Add(edge.To, new HashSet<WeightedEdge<T>>());
+            }
+            EdgeMap[edge.To].Add(new WeightedEdge<T>(edge.To, edge.From, -edge.Weight));
+        }
 
         public SCG.ICollection<WeightedEdge<T>> GetAdjacencyList(T vertex)
         {
@@ -68,5 +85,6 @@ namespace Graphs
         {
             return GetEnumerator();
         }
+
     }
 }

@@ -7,9 +7,9 @@ namespace GraphsUnitTests
     [TestClass]
     public class GraphTests
     {
-        private WeightedDirectedGraph<int> GetTestGraph()
+        private WeightedDiGraph<int> GetTestGraph()
         {
-            WeightedDirectedGraph<int> directedGraph = new WeightedDirectedGraph<int>
+            WeightedDiGraph<int> directedGraph = new WeightedDiGraph<int>
             {
                 new WeightedEdge<int>(0, 1, 10),
                 new WeightedEdge<int>(0, 2, 5),
@@ -23,7 +23,7 @@ namespace GraphsUnitTests
         [TestMethod]
         public void GetWeightTest()
         {
-            WeightedDirectedGraph<int> directedGraph = GetTestGraph();
+            WeightedDiGraph<int> directedGraph = GetTestGraph();
 
             Assert.AreEqual(25, directedGraph.GetWeight());
         }
@@ -31,7 +31,7 @@ namespace GraphsUnitTests
         [TestMethod]
         public void GetAdjacencyListTest()
         {
-            WeightedDirectedGraph<int> directedGraph = GetTestGraph();
+            WeightedDiGraph<int> directedGraph = GetTestGraph();
 
             ICollection<WeightedEdge<int>> adjacencyList = directedGraph.GetAdjacencyList(0);
 
@@ -44,7 +44,7 @@ namespace GraphsUnitTests
         [TestMethod]
         public void GetEdgeTest()
         {
-            WeightedDirectedGraph<int> directedGraph = GetTestGraph();
+            WeightedDiGraph<int> directedGraph = GetTestGraph();
 
             Assert.AreEqual(new WeightedEdge<int>(1, 2, 7), directedGraph.GetEdge(1, 2));
         }

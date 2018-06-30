@@ -8,7 +8,7 @@ namespace Graphs
     /// Represents weighted oriented graph.
     /// <typeparam name="T">A type of edge label.</typeparam>
     /// </summary>
-    public class WeightedDirectedGraph<T> : WeightedGraph<T> where T : IComparable<T>
+    public class WeightedDiGraph<T> : WeightedGraph<T> where T : IComparable<T>
     {
         /// <summary>
         /// Adds a new weighted edge.
@@ -34,6 +34,7 @@ namespace Graphs
         {
             return this.Sum(edge => edge.Weight);
         }
+
 
     }
 }

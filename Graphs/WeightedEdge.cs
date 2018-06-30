@@ -10,7 +10,7 @@ namespace Graphs
     {
         public static readonly WeightedEdge<T> None = new WeightedEdge<T>(default(T), default(T), 0);
 
-        public WeightedEdge(T from, T to, double weight)
+        public WeightedEdge(T from, T to, double weight = 0)
         {
             From = from;
             To = to;

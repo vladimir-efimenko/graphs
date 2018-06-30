@@ -11,7 +11,7 @@ namespace Graphs.Algorithms
         private readonly IDictionary<T, WeightedEdge<T>> _parents;
         private readonly IDictionary<T, double> _calcWeights;
 
-        public GraphShortestPaths(T from, WeightedDirectedGraph<T> directedGraph)
+        public GraphShortestPaths(T from, WeightedDiGraph<T> directedGraph)
         {
             From = from;
             DirectedGraph = directedGraph;
@@ -24,7 +24,7 @@ namespace Graphs.Algorithms
 
         public T From { get; }
 
-        public WeightedDirectedGraph<T> DirectedGraph { get; }
+        public WeightedDiGraph<T> DirectedGraph { get; }
 
         public SCG.ICollection<WeightedEdge<T>> GetShortestPath(T to)
         {

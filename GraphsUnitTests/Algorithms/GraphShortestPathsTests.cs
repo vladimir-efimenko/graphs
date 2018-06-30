@@ -14,7 +14,7 @@ namespace GraphsUnitTests
         [TestMethod]
         public void ShortestPathsWithOneEdgeLength()
         {
-            WeightedDirectedGraph<int> directedGraph = new WeightedDirectedGraph<int>
+            WeightedDiGraph<int> directedGraph = new WeightedDiGraph<int>
             {
                 new WeightedEdge<int>(0, 1, 10),
                 new WeightedEdge<int>(0, 2, 5),
@@ -42,7 +42,7 @@ namespace GraphsUnitTests
         [TestMethod]
         public void ShortestPathsWithFiveEdges()
         {
-            WeightedDirectedGraph<int> directedGraph = new WeightedDirectedGraph<int>
+            WeightedDiGraph<int> directedGraph = new WeightedDiGraph<int>
             {
                 new WeightedEdge<int>(1, 2, 7),
                 new WeightedEdge<int>(1, 3, 9),
@@ -69,7 +69,7 @@ namespace GraphsUnitTests
         [DataTestMethod]
         public void ShortedPathsWithSeveralEdges(int vertexTo, double expectedWeight)
         {
-            WeightedDirectedGraph<int> directedGraph = new WeightedDirectedGraph<int>
+            WeightedDiGraph<int> directedGraph = new WeightedDiGraph<int>
             {
                 new WeightedEdge<int>(0, 2, 0.26),
                 new WeightedEdge<int>(0, 4, 0.38),
@@ -98,7 +98,7 @@ namespace GraphsUnitTests
         [TestMethod]
         public void ShortestPathsEmptyInNotConnectedGraph()
         {
-            WeightedDirectedGraph<int> directedGraph = new WeightedDirectedGraph<int>
+            WeightedDiGraph<int> directedGraph = new WeightedDiGraph<int>
             {
                 new WeightedEdge<int>(0, 1, 10),
                 new WeightedEdge<int>(0, 2, 10),
@@ -116,7 +116,7 @@ namespace GraphsUnitTests
         [TestMethod]
         public void ShortestPathDoesnotContainEmptyEdge()
         {
-            WeightedDirectedGraph<int> directedGraph = new WeightedDirectedGraph<int>
+            WeightedDiGraph<int> directedGraph = new WeightedDiGraph<int>
             {
                 new WeightedEdge<int>(0, 1, 10),
                 new WeightedEdge<int>(0, 2, 10),
@@ -133,7 +133,7 @@ namespace GraphsUnitTests
         [TestMethod]
         public void ShortestPathWithSymbolicLabelsGraph()
         {
-            WeightedDirectedGraph<char> directedGraph = new WeightedDirectedGraph<char>
+            WeightedDiGraph<char> directedGraph = new WeightedDiGraph<char>
             {
                 new WeightedEdge<char>('A', 'B', 1),
                 new WeightedEdge<char>('B', 'C', 2),

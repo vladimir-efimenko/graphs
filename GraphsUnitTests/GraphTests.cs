@@ -48,5 +48,31 @@ namespace GraphsUnitTests
 
             Assert.AreEqual(new WeightedEdge<int>(1, 2, 7), directedGraph.GetEdge(1, 2));
         }
+
+        [TestMethod]
+        public void WeightedGraphToString()
+        {
+            WeightedGraph<int> graph = new WeightedDiGraph<int>
+            {
+                new WeightedEdge<int>(1, 2, 1),
+                new WeightedEdge<int>(2, 3, 2),
+                new WeightedEdge<int>(3, 1, 3)
+            };
+
+            Assert.IsNotNull(graph.ToString());
+        }
+
+        [TestMethod]
+        public void CanGetNoneWhenEdgeDoesnotExist()
+        {
+            WeightedGraph<int> graph = new WeightedGraph<int>
+            {
+                new WeightedEdge<int>(1, 2),
+                new WeightedEdge<int>(3, 5),
+                new WeightedEdge<int>(2, 6)
+            };
+
+            Assert.AreEqual(WeightedEdge<int>.None, graph.GetEdge(1, 3));
+        }
     }
 }

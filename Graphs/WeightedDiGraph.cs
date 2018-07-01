@@ -35,6 +35,14 @@ namespace Graphs
             return this.Sum(edge => edge.Weight);
         }
 
-
+        public WeightedDiGraph<T> Reverse()
+        {
+            WeightedDiGraph<T> graph = new WeightedDiGraph<T>();
+            foreach(WeightedEdge<T> edge in this)
+            {
+                graph.Add(edge.To, edge.From, edge.Weight);
+            }
+            return graph;
+        }
     }
 }

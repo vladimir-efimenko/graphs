@@ -25,7 +25,7 @@ namespace GraphsUnitTests
         {
             WeightedDiGraph<int> directedGraph = GetTestGraph();
 
-            Assert.AreEqual(25, directedGraph.GetWeight());
+            Assert.AreEqual(25, directedGraph.Weight);
         }
 
         [TestMethod]
@@ -42,11 +42,28 @@ namespace GraphsUnitTests
         }
 
         [TestMethod]
-        public void GetEdgeTest()
+        public void GetEdge()
         {
             WeightedDiGraph<int> directedGraph = GetTestGraph();
 
             Assert.AreEqual(new WeightedEdge<int>(1, 2, 7), directedGraph.GetEdge(1, 2));
+            Assert.AreEqual(WeightedEdge<int>.None, directedGraph.GetEdge(3, 0));
+        }
+
+        [TestMethod]
+        public void EnumeratorCanEnumerateDiGraph()
+        {
+            System.Collections.IEnumerable graph = new WeightedDiGraph<int>
+            {
+                (1, 2), (2, 3), (1,3)
+            };
+
+            System.Collections.IEnumerator edgeEnumerator = graph.GetEnumerator();
+
+            Assert.IsTrue(edgeEnumerator.MoveNext());
+            Assert.IsTrue(edgeEnumerator.MoveNext());
+            Assert.IsTrue(edgeEnumerator.MoveNext());
+            Assert.IsFalse(edgeEnumerator.MoveNext());
         }
 
         [TestMethod]
@@ -73,6 +90,24 @@ namespace GraphsUnitTests
             };
 
             Assert.AreEqual(WeightedEdge<int>.None, graph.GetEdge(1, 3));
+        }
+
+        [TestMethod]
+        public void GetVertices()
+        {
+            WeightedGraph<int> graph = new WeightedGraph<int>
+            {
+                (1, 2), (2, 3), (3, 4), (4, 5)
+            };
+
+            ICollection<int> vertices = graph.GetVertices();
+
+            Assert.AreEqual(5, vertices.Count, "Vertices count");
+            Assert.IsTrue(vertices.Contains(1));
+            Assert.IsTrue(vertices.Contains(2));
+            Assert.IsTrue(vertices.Contains(3));
+            Assert.IsTrue(vertices.Contains(4));
+            Assert.IsTrue(vertices.Contains(5));
         }
     }
 }

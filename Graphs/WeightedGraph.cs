@@ -35,6 +35,11 @@ namespace Graphs
             EdgeMap[edge.To].Add(new WeightedEdge<T>(edge.To, edge.From, -edge.Weight));
         }
 
+        public void Add((T from, T to) edge)
+        {
+            Add(new WeightedEdge<T>(edge.from, edge.to));
+        }
+
         public SCG.ICollection<WeightedEdge<T>> GetAdjacencyList(T vertex)
         {
             if (!EdgeMap.Contains(vertex))
@@ -52,7 +57,27 @@ namespace Graphs
                         return edge;
                 }
             }
+            else if (EdgeMap.Contains(to))
+            {
+                foreach (WeightedEdge<T> edge in EdgeMap[to])
+                {
+                    if (edge.From.Equals(from))
+                        return edge;
+                }
+            }
             return WeightedEdge<T>.None;
+        }
+
+        public SCG.ICollection<T> GetVertices()
+        {
+            HashSet<T> vertices = new HashSet<T>();
+            foreach(WeightedEdge<T> edge in this)
+            {
+                vertices.Add(edge.From);
+                vertices.Add(edge.To);
+            }
+
+            return vertices;
         }
 
         public override string ToString()

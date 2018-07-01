@@ -58,8 +58,7 @@ namespace Graphs.Algorithms
 
         public bool Connected(T vertex1, T vertex2)
         {
-            if (Count() == 0) return false;
-            foreach(T vertex in _components.Keys)
+            foreach (T vertex in _components.Keys)
             {
                 HashSet<T> adjLst = _components[vertex];
                 if (vertex.Equals(vertex1))

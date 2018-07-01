@@ -1,6 +1,5 @@
 ﻿using System;
 using C5;
-using System.Linq;
 
 namespace Graphs
 {
@@ -10,6 +9,8 @@ namespace Graphs
     /// </summary>
     public class WeightedDiGraph<T> : WeightedGraph<T> where T : IComparable<T>
     {
+        private double _weight = 0;
+
         /// <summary>
         /// Adds a new weighted edge.
         /// </summary>
@@ -20,6 +21,7 @@ namespace Graphs
                 EdgeMap.Add(from, new HashSet<WeightedEdge<T>>());
             }
             EdgeMap[from].Add(new WeightedEdge<T>(from, to, weight));
+            _weight += weight;
         }
 
         /// <summary>
@@ -30,11 +32,11 @@ namespace Graphs
             Add(edge.From, edge.To, edge.Weight);
         }
 
-        public double GetWeight()
-        {
-            return this.Sum(edge => edge.Weight);
-        }
+        public double Weight => _weight;
 
+        /// <summary>
+        /// Returns new reverted instance of this graph.
+        /// </summary>
         public WeightedDiGraph<T> Reverse()
         {
             WeightedDiGraph<T> graph = new WeightedDiGraph<T>();

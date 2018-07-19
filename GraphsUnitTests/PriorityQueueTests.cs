@@ -1,22 +1,21 @@
 ﻿using Graphs;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace GraphsUnitTests
 {
-    [TestClass]
+    [TestFixture]
     public class PriorityQueueTests
     {
         private PriorityQueue<int> _pq;
 
-        [TestInitialize]
+        [SetUp]
         public void Setup()
         {
             _pq = new PriorityQueue<int>();
         }
 
-        [DataRow(1, true)]
-        [DataRow(2, false)]
-        [DataTestMethod]
+        [TestCase(1, true)]
+        [TestCase(2, false)]
         public void ContainsVertexTest(int vertex, bool result)
         {
             _pq.Add(1, 1);
@@ -24,7 +23,7 @@ namespace GraphsUnitTests
             Assert.AreEqual(result, _pq.Contains(vertex));
         }
 
-        [TestMethod]
+        [Test]
         public void CanDeleteMinVertexTest()
         {
             _pq.Add(1, 100);
@@ -34,7 +33,7 @@ namespace GraphsUnitTests
             Assert.IsFalse(_pq.Contains(1));
         }
 
-        [TestMethod]
+        [Test]
         public void CanChangePriorityTest()
         {
             _pq.Add(1, 1);

@@ -1,16 +1,16 @@
 ﻿using Graphs;
 using Graphs.Algorithms;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SCG = System.Collections.Generic;
 using C5;
 using System.Linq;
+using NUnit.Framework;
 
 namespace GraphsUnitTests.Algorithms
 {
-    [TestClass]
+    [TestFixture]
     public class DfsTests
     {
-        [TestMethod]
+        [Test]
         public void CanSumDirectedGraphWeightsCorrectlyWhenTraverseInDfsOrder()
         {
             WeightedDiGraph<int> directedGraph = new WeightedDiGraph<int>
@@ -29,7 +29,7 @@ namespace GraphsUnitTests.Algorithms
             Assert.AreEqual(directedGraph.Weight, weight);
         }
 
-        [TestMethod]
+        [Test]
         public void CanSumUndirectedGraphWeightsCorrectlyWhenTraverseInDfsOrder()
         {
             WeightedGraph<int> graph = new WeightedGraph<int>
@@ -48,7 +48,7 @@ namespace GraphsUnitTests.Algorithms
             Assert.AreEqual(0, weight);
         }
 
-        [TestMethod]
+        [Test]
         public void TraverseActionCanGetAllVertices()
         {
             WeightedGraph<int> graph = new WeightedGraph<int>
@@ -63,7 +63,7 @@ namespace GraphsUnitTests.Algorithms
             Assert.AreEqual(vertices.Count, graph.GetVertices().Count);
         }
 
-        [DataTestMethod]
+        [Test]
         public void Paths()
         {
             WeightedGraph<int> graph = new WeightedGraph<int>

@@ -1,14 +1,14 @@
 ﻿
 
 using Graphs;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace GraphsUnitTests
 {
-    [TestClass]
+    [TestFixture]
     public class DiGraphTests
     {
-        [TestMethod]
+        [Test]
         public void DiGraphReverseCorrectly()
         {
             WeightedDiGraph<int> graph = new WeightedDiGraph<int>

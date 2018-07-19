@@ -1,14 +1,14 @@
 ﻿using Graphs;
 using Graphs.Algorithms;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace GraphsUnitTests.Algorithms
 {
-    [TestClass]
+    [TestFixture]
     public class ConnectedComponentsTests
     {
 
-        [TestMethod]
+        [Test]
         public void ConnectedComponentsWhenEveryVertexIsolated()
         {
             WeightedGraph<int> graph = new WeightedGraph<int>
@@ -23,7 +23,7 @@ namespace GraphsUnitTests.Algorithms
             Assert.AreEqual(3, cc.Count());
         }
 
-        [TestMethod]
+        [Test]
         public void ConnectedComponentsTwoVerticesConnected()
         {
             WeightedGraph<int> graph = new WeightedGraph<int>
@@ -38,10 +38,9 @@ namespace GraphsUnitTests.Algorithms
             Assert.IsTrue(cc.Connected(4, 2));
         }
 
-        [DataRow(1, 2)]
-        [DataRow(2, 3)]
-        [DataRow(3, 1)]
-        [DataTestMethod]
+        [TestCase(1, 2)]
+        [TestCase(2, 3)]
+        [TestCase(3, 1)]
         public void ConnectedComponentsWhenEveryVertexIsolatedNoVerticesConnected(int vertex1, int vertex2)
         {
             WeightedGraph<int> graph = new WeightedGraph<int>

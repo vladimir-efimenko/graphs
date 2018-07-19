@@ -1,14 +1,14 @@
 using System;
 using C5;
 using Graphs;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace GraphsUnitTests
 {
-    [TestClass]
+    [TestFixture]
     public class EdgeTests
     {
-        [TestMethod]
+        [Test]
         public void MaxValueEdgeIsLessThanPositiveInfinityEdge()
         {
             var edge1 = new WeightedEdge<int>(0, 1, double.MaxValue);
@@ -17,7 +17,7 @@ namespace GraphsUnitTests
             Assert.AreEqual(-1, edge1.CompareTo(edge2));
         }
 
-        [TestMethod]
+        [Test]
         public void PriorityMinEdgeFindsFirst()
         {
             IPriorityQueue<WeightedEdge<int>> queue = new IntervalHeap<WeightedEdge<int>>();

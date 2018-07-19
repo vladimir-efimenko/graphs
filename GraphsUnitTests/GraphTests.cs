@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using Graphs;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace GraphsUnitTests
 {
-    [TestClass]
+    [TestFixture]
     public class GraphTests
     {
         private WeightedDiGraph<int> GetTestGraph()
@@ -20,7 +20,7 @@ namespace GraphsUnitTests
             return directedGraph;
         }
 
-        [TestMethod]
+        [Test]
         public void GetWeightTest()
         {
             WeightedDiGraph<int> directedGraph = GetTestGraph();
@@ -28,7 +28,7 @@ namespace GraphsUnitTests
             Assert.AreEqual(25, directedGraph.Weight);
         }
 
-        [TestMethod]
+        [Test]
         public void GetAdjacencyListTest()
         {
             WeightedDiGraph<int> directedGraph = GetTestGraph();
@@ -41,7 +41,7 @@ namespace GraphsUnitTests
             Assert.IsTrue(adjacencyList.Contains(new WeightedEdge<int>(0, 3, 3)));
         }
 
-        [TestMethod]
+        [Test]
         public void GetEdge()
         {
             WeightedDiGraph<int> directedGraph = GetTestGraph();
@@ -50,7 +50,7 @@ namespace GraphsUnitTests
             Assert.AreEqual(WeightedEdge<int>.None, directedGraph.GetEdge(3, 0));
         }
 
-        [TestMethod]
+        [Test]
         public void EnumeratorCanEnumerateDiGraph()
         {
             System.Collections.IEnumerable graph = new WeightedDiGraph<int>
@@ -66,7 +66,7 @@ namespace GraphsUnitTests
             Assert.IsFalse(edgeEnumerator.MoveNext());
         }
 
-        [TestMethod]
+        [Test]
         public void WeightedGraphToString()
         {
             WeightedGraph<int> graph = new WeightedDiGraph<int>
@@ -79,7 +79,7 @@ namespace GraphsUnitTests
             Assert.IsNotNull(graph.ToString());
         }
 
-        [TestMethod]
+        [Test]
         public void CanGetNoneWhenEdgeDoesnotExist()
         {
             WeightedGraph<int> graph = new WeightedGraph<int>
@@ -92,7 +92,7 @@ namespace GraphsUnitTests
             Assert.AreEqual(WeightedEdge<int>.None, graph.GetEdge(1, 3));
         }
 
-        [TestMethod]
+        [Test]
         public void GetVertices()
         {
             WeightedGraph<int> graph = new WeightedGraph<int>

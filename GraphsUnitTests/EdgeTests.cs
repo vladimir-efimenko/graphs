@@ -27,5 +27,14 @@ namespace GraphsUnitTests
 
             Assert.AreEqual(new WeightedEdge<int>(0, 1, 1), queue.FindMin());
         }
+
+        [Test]
+        public void EqualsTest()
+        {
+            WeightedEdge<int> edge1 = new WeightedEdge<int>(1, 2);
+            object edge2 = new WeightedEdge<int>(1, 2);
+
+            Assert.IsTrue(edge1.Equals(edge2));
+        }
     }
 }

@@ -25,7 +25,7 @@ namespace GraphsUnitTests
         {
             WeightedDiGraph<int> directedGraph = GetTestGraph();
 
-            Assert.AreEqual(25, directedGraph.Weight);
+            Assert.AreEqual(26, directedGraph.Weight);
         }
 
         [Test]

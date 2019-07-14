@@ -11,6 +11,7 @@ namespace GraphsUnitTests
         [Test]
         public void MaxValueEdgeIsLessThanPositiveInfinityEdge()
         {
+            // This is TEST edit
             var edge1 = new WeightedEdge<int>(0, 1, double.MaxValue);
             var edge2 = new WeightedEdge<int>(0, 1, double.PositiveInfinity);
 
